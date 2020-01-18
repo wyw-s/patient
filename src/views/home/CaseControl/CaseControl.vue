@@ -1,22 +1,22 @@
 <template>
- <div>
-患者管理
- </div>
+  <div>
+    <el-card class="box-card">
+      陌生地方
+    </el-card>
+  </div>
 </template>
 
 <script>
 export default {
   data () {
-    return {
-
-    }
+    return {}
   },
-  components: {
-
-  }
+  components: {}
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.box-card {
+  width: 100%;
+}
 </style>

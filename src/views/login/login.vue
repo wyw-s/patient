@@ -21,15 +21,14 @@
 
 <script>
 import http from '../../utils/http.js'
-// import axios from 'axios'
-// import { setToken } from '../../utils/Token.js'
+import { setToken } from '../../utils/Token.js'
 export default {
   data () {
     return {
       // 表单内数据
       ruleForm: {
-        username: '',
-        password: ''
+        username: 'qwer1234',
+        password: '123456'
       },
       // 效验规则
       rules: {
@@ -42,35 +41,28 @@ export default {
       }
     }
   },
+
   methods: {
     // 提交表单
     submitForm (ruleForm) {
-      this.$refs['ruleForm'].validate(async (valid, uu) => {
+      this.$refs['ruleForm'].validate(async (valid) => {
         if (valid) {
-          // 发送 POST 请求
-          const res = await http({
-            method: 'POST',
-            url: '/customer/customer/user/login',
-            data: this.ruleForm
-          })
-          if (res.success === 200) {
-            console.log('登录成功')
+          // 请求响应
+          const { data } = await http.post('/customer/user/login', this.ruleForm)
+          if (data.success) {
+            // 存储token;
+            setToken(data.data)
+            // 编程式导航；
+            this.$router.push('/')
+          } else {
+            // 错误提示
+            this.$message.error('用户名或密码错误，请重新输入')
           }
-          // const res = await axios.post({
-          //   method: 'POST',
-          //   url: '/customer/user/login',
-          //   data: this.ruleForm
-          // })
-          console.log(res)
-          // alert('submit!')
         } else {
-          console.log('error submit!!')
+          // 效验失败
           return false
         }
       })
-    },
-    resetForm (ruleForm) {
-      this.$refs[ruleForm].resetFields()
     }
   }
 }

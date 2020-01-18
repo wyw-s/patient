@@ -1,8 +1,6 @@
 import axios from 'axios'
 
-const http = axios.create({
-  // baseURL: 'api'
-})
+const http = axios.create({})
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {

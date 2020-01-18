@@ -17,6 +17,7 @@ const routes = [
     component: home,
     children: [
       {
+        // 默认路由
         path: '',
         component: CaseControl
       }

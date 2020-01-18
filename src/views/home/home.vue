@@ -1,15 +1,22 @@
 <template>
-  <div>登录页</div>
+ <div>
+患者管理
+ </div>
 </template>
 
 <script>
 export default {
   data () {
-    return {}
+    return {
+
+    }
   },
-  components: {}
+  components: {
+
+  }
 }
 </script>
 
 <style>
+
 </style>

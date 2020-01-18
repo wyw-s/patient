@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com'
+  // baseURL: 'api'
 })
 
 // 添加请求拦截器

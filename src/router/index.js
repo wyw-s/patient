@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import login from '../views/login/login.vue'
-// import home from '../views/home/home.vue'
+import home from '../views/home/home.vue'
+import CaseControl from '../views/home/CaseControl/CaseControl.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,16 @@ const routes = [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/',
+    component: home,
+    children: [
+      {
+        path: '',
+        component: CaseControl
+      }
+    ]
   }
 ]
 

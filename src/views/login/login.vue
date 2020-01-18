@@ -21,6 +21,7 @@
 
 <script>
 import http from '../../utils/http.js'
+// import axios from 'axios'
 // import { setToken } from '../../utils/Token.js'
 export default {
   data () {
@@ -48,15 +49,20 @@ export default {
         if (valid) {
           // 发送 POST 请求
           const res = await http({
-            method: 'post',
-            url: '/customer/login',
+            method: 'POST',
+            url: '/customer/customer/user/login',
             data: this.ruleForm
           })
           if (res.success === 200) {
             console.log('登录成功')
           }
-          console.log(this.ruleForm, res)
-          alert('submit!')
+          // const res = await axios.post({
+          //   method: 'POST',
+          //   url: '/customer/user/login',
+          //   data: this.ruleForm
+          // })
+          console.log(res)
+          // alert('submit!')
         } else {
           console.log('error submit!!')
           return false

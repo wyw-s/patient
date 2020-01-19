@@ -51,6 +51,7 @@ export default {
           const { data } = await http.post('/customer/user/login', this.ruleForm)
           if (data.success) {
             // 存储token;
+            // console.log(data)
             setToken(data.data)
             // 编程式导航；
             this.$router.push('/')

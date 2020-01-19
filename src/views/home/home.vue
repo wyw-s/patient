@@ -6,23 +6,22 @@
       <el-aside width="200px" class="l_h">
         <div class="logo">后台管理系统</div>
         <el-menu
-          :default-active="activeIndex2"
           class="el-menu-demo nav_p"
-          @select="handleSelect"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          router
         >
-          <el-menu-item index="1" class="">患者管理</el-menu-item>
-          <el-menu-item index="2" class="">病历管理</el-menu-item>
-          <el-menu-item index="3" class="">数据大盘</el-menu-item>
+          <el-menu-item index="/" class="">患者管理</el-menu-item>
+          <el-menu-item index="/caseHistory" class="">病历管理</el-menu-item>
+          <el-menu-item index="/statistics" class="">数据大盘</el-menu-item>
         </el-menu>
       </el-aside>
       <!-- 右侧容器 -->
       <el-container>
         <el-header style="height: 40px">
           <div class="UserOut">
-            <span>患者管理</span>
+            <span>百草堂</span>
             <el-button type="info" size="mini">退出登录</el-button>
           </div>
         </el-header>

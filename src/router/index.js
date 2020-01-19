@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import login from '../views/login/login.vue'
 import home from '../views/home/home.vue'
 import CaseControl from '../views/home/CaseControl/CaseControl.vue'
+import CaseHistory from '../views/home/CaseHistory/CaseHistory.vue'
+import statistics from '../views/home/statistics/statistics.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +22,14 @@ const routes = [
         // 默认路由
         path: '',
         component: CaseControl
+      },
+      {
+        path: '/CaseHistory',
+        component: CaseHistory
+      },
+      {
+        path: '/statistics',
+        component: statistics
       }
     ]
   }

@@ -1,9 +1,18 @@
 import axios from 'axios'
+import { getToken } from './Token.js'
 
-const http = axios.create({})
+const http = axios.create({
+  headers: { 'Content-Type': 'application/json;charset=UTF-8' }
+})
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
+  // 判断token是否存在
+  if (getToken()) {
+    // 添加认证信息
+    console.log(config)
+    config.headers['Authorization'] = getToken()
+  }
   // 在发送请求之前做些什么
   return config
 }, function (error) {

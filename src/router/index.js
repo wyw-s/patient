@@ -5,6 +5,8 @@ import home from '../views/home/home.vue'
 import CaseControl from '../views/home/CaseControl/CaseControl.vue'
 import CaseHistory from '../views/home/CaseHistory/CaseHistory.vue'
 import statistics from '../views/home/statistics/statistics.vue'
+import NProgress from 'nprogress'
+import { getToken } from '../utils/Token'
 
 Vue.use(VueRouter)
 
@@ -24,6 +26,7 @@ const routes = [
         component: CaseControl
       },
       {
+        name: 'CaseHistory',
         path: '/CaseHistory',
         component: CaseHistory
       },
@@ -39,4 +42,22 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  // 开启进度条；
+  NProgress.start()
+  if (to.path === '/login') {
+    next()
+  } else if (getToken()) {
+    next()
+  } else {
+    next('/login')
+  }
+})
+
+/*
+* 路由导航后置钩子函数，
+* 路由导航结束后，关闭进度条 */
+router.afterEach(() => {
+  NProgress.done()
+})
 export default router

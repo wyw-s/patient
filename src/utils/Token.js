@@ -4,7 +4,7 @@
 
 // 设置token
 export const setToken = (val) => {
-  window.localStorage.setItem('Token', JSON.stringify(val))
+  window.localStorage.setItem('Token', val)
 }
 
 // 获取token

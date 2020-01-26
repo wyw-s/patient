@@ -9,7 +9,7 @@
           <el-input v-model.number="ruleForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="pass" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
+          <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleForm)" class="register">立即登录</el-button>
@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import http from '../../utils/http.js'
-import { setToken } from '../../utils/Token.js'
+import http from '@/utils/http.js'
+import { setToken } from '@/utils/Token.js'
 export default {
   data () {
     return {
@@ -51,10 +51,13 @@ export default {
           const { data } = await http.post('/customer/user/login', this.ruleForm)
           if (data.success) {
             // 存储token;
-            // console.log(data)
             setToken(data.data)
             // 编程式导航；
             this.$router.push('/')
+            this.$message({
+              type: 'success',
+              message: '登录成功'
+            })
           } else {
             // 错误提示
             this.$message.error('用户名或密码错误，请重新输入')

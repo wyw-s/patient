@@ -12,9 +12,9 @@
           active-text-color="#ffd04b"
           router
         >
-          <el-menu-item index="/" class="">患者管理</el-menu-item>
-          <el-menu-item index="/caseHistory" class="">病历管理</el-menu-item>
-          <el-menu-item index="/statistics" class="">数据大盘</el-menu-item>
+          <el-menu-item index="/">患者管理</el-menu-item>
+          <el-menu-item index="/caseHistory">病历管理</el-menu-item>
+          <el-menu-item index="/statistics">数据大盘</el-menu-item>
         </el-menu>
       </el-aside>
       <!-- 右侧容器 -->
@@ -22,7 +22,7 @@
         <el-header style="height: 40px">
           <div class="UserOut">
             <span>百草堂</span>
-            <el-button type="info" size="mini">退出登录</el-button>
+            <el-button @click="OnUserOut" type="info" size="mini">退出登录</el-button>
           </div>
         </el-header>
         <el-main>
@@ -35,11 +35,35 @@
 </template>
 
 <script>
+import { remTOken } from '../../utils/Token.js'
 export default {
+  name: 'nav_',
   data () {
-    return {}
+    return {
+    }
   },
-  components: {}
+  methods: {
+    OnUserOut () {
+      this.$confirm('此操作将退出登录状态, 是否继续?', '提示', {
+        confirmButtonText: '退出',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        remTOken()
+        this.$router.push('/login')
+        this.$message({
+          type: 'success',
+          message: '退出成功'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    }
+  }
 }
 </script>
 
@@ -66,4 +90,5 @@ export default {
     justify-content: space-between;
     padding: 15px;
 }
+
 </style>

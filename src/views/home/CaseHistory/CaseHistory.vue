@@ -11,42 +11,45 @@
           prop="readlname"
           label="姓名"
           width="100"
+          align="center"
         ></el-table-column>
         <el-table-column
           prop="symptom"
           label="症状"
           width="250"
+          align="center"
         ></el-table-column>
         <el-table-column
           prop="program"
           label="治疗方案"
+          align="center"
         ></el-table-column>
         <el-table-column
           prop="doctor"
           label="医生"
-          width="150"
+          width="100"
+          align="center"
         ></el-table-column>
          <el-table-column
           prop="caseTime"
           label="就诊日期"
-          width="150"
+          width="140"
+          align="center"
         >
         </el-table-column>
-         <el-table-column
-          prop="operation "
-          label="操作"
-          width="160"
+        <el-table-column
+          prop="account"
+          label="就诊金额"
+          width="110"
+          align="center"
         >
-        <el-button
-          disabled
-          size="small"
-          type="success"
-        >编辑</el-button>
-         <!-- <el-button
-          size="small"
-          type="danger"
-          @click="onDelete"
-        >删除</el-button>-->
+        </el-table-column>
+        <el-table-column
+          prop="remark "
+          label="订单备注"
+          width="160"
+          align="center"
+        >
         </el-table-column>
       </el-table>
       <div class="laypage">

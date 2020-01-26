@@ -4,7 +4,7 @@
     <el-container>
       <!-- 左侧导航 -->
       <el-aside width="200px" class="l_h">
-        <div class="logo">后台管理系统</div>
+        <div class="logo">百草堂后台管理系统</div>
         <el-menu
           class="el-menu-demo nav_p"
           background-color="#545c64"
@@ -18,14 +18,14 @@
         </el-menu>
       </el-aside>
       <!-- 右侧容器 -->
-      <el-container>
-        <el-header style="height: 40px">
+      <el-container class="My_right_container">
+        <el-header style="height: 48px" >
           <div class="UserOut">
-            <span>百草堂</span>
+            <span><strong>百草堂医疗康复中心</strong></span>
             <el-button @click="OnUserOut" type="info" size="mini">退出登录</el-button>
           </div>
         </el-header>
-        <el-main>
+        <el-main style="padding-top: 0">
           <!-- 二级路由容器 -->
           <router-view/>
         </el-main>
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { remTOken } from '../../utils/Token.js'
+import { remTOken } from '@/utils/Token.js'
 export default {
   name: 'nav_',
   data () {
@@ -85,10 +85,17 @@ export default {
     }
   }
 }
-.UserOut {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-}
 
+.My_right_container {
+  height: 100vh;
+  .el-header {
+    border-bottom: 1px solid #ebeef5;
+    .UserOut {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      line-height: 28px
+    }
+  }
+}
 </style>

@@ -82,17 +82,17 @@
         style="width: 100%"
         element-loading-text="拼命加载中..."
       >
-        <el-table-column prop="readlname" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="phone" label="手机号" width="180"></el-table-column>
-        <el-table-column prop="createTime" label="日期" width="180"></el-table-column>
-        <el-table-column prop="address" label="地址"></el-table-column>
-        <el-table-column prop="historyCase" label="病例操作" width="180">
+        <el-table-column align="center" prop="readlname" label="姓名" width="180"></el-table-column>
+        <el-table-column align="center" prop="phone" label="手机号" width="180"></el-table-column>
+        <el-table-column align="center" prop="createTime" label="日期" width="180"></el-table-column>
+        <el-table-column align="center" prop="address" label="地址"></el-table-column>
+        <el-table-column align="center" prop="historyCase" label="病例操作" width="250">
           <template slot-scope="scope">
             <el-button @click="OnnewAddSase(scope.row)" size="small">新增病例</el-button>
-            <el-button @click="OnReview(scope.row)" size="small">复查</el-button>
+            <el-button @click="OnReview(scope.row)" size="small">查看以往病例</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="operation " label="操作" width="160">
+        <el-table-column align="center" prop="operation " label="操作" width="130">
           <template slot-scope="scope">
             <el-button size="small" type="success" @click="onEdit(scope.row)">编辑</el-button>
           </template>
@@ -111,10 +111,10 @@
       <!-- 对话框 -->
       <el-dialog
         :before-close="closeDialogCase"
-        :title="TitleDialog"
+        title="新增病例"
         :visible.sync="AddCaseDialog"
         :close-on-click-modal="false"
-        width="200"
+         width="40%"
         center
         modal
       >
@@ -123,7 +123,7 @@
           :model="addCaseHistory"
           :rules="addCaseRules"
           ref="addCaseForm"
-          label-width="100px"
+          label-width="120px"
           class="demo-ruleForm"
         >
           <el-form-item label="症状" prop="symptom">

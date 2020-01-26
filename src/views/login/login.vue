@@ -27,8 +27,8 @@ export default {
     return {
       // 表单内数据
       ruleForm: {
-        username: 'qwer1234',
-        password: '123456'
+        username: '',
+        password: ''
       },
       // 效验规则
       rules: {

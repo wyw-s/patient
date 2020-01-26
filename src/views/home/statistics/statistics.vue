@@ -138,7 +138,7 @@ export default {
           yAxis: [
             {
               type: 'value',
-              name: '人数',
+              name: '金额',
               min: 0,
               max: 10000,
               interval: 2000,

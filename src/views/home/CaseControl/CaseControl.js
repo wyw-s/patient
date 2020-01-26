@@ -72,7 +72,8 @@ export default {
         program: [{ required: true, message: '请输入治疗方案', trigger: 'blur' }],
         readlname: [{ required: true, message: '请输入症状', trigger: 'blur' }],
         doctor: [{ required: true, message: '请输入诊治医师', trigger: 'blur' }],
-        caseTime: [{ required: true, message: '请选择日期', trigger: 'blur' }]
+        caseTime: [{ required: true, message: '请选择日期', trigger: 'blur' }],
+        account: [{ required: true, message: '请输入金额', trigger: 'blur' }]
       }
     }
   },

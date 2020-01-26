@@ -4,15 +4,15 @@
 
 // 设置token
 export const setToken = (val) => {
-  window.localStorage.setItem('Token', val)
+  window.sessionStorage.setItem('Token', val)
 }
 
 // 获取token
 export const getToken = () => {
-  return window.localStorage.getItem('Token')
+  return window.sessionStorage.getItem('Token')
 }
 
 // 删除token
 export const remTOken = () => {
-  window.localStorage.removeItem('Token')
+  window.sessionStorage.removeItem('Token')
 }

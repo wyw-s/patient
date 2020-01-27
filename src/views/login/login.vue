@@ -12,7 +12,13 @@
           <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleForm)" class="register">立即登录</el-button>
+          <el-button
+            type="primary"
+            @click="submitForm(ruleForm)"
+            class="register"
+            v-loading.fullscreen.lock="fullscreenLoading"
+            element-loading-text="登录中..."
+          >立即登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -30,6 +36,8 @@ export default {
         username: '',
         password: ''
       },
+      // loading;
+      fullscreenLoading: false,
       // 效验规则
       rules: {
         username: [
@@ -47,6 +55,7 @@ export default {
     submitForm (ruleForm) {
       this.$refs['ruleForm'].validate(async (valid) => {
         if (valid) {
+          this.fullscreenLoading = true
           // 请求响应
           const { data } = await http.post('/customer/user/login', this.ruleForm)
           if (data.success) {
@@ -54,6 +63,7 @@ export default {
             setToken(data.data)
             // 编程式导航；
             this.$router.push('/')
+            this.fullscreenLoading = false
             this.$message({
               type: 'success',
               message: '登录成功'

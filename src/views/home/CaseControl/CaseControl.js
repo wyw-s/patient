@@ -106,11 +106,21 @@ export default {
       this.loading = true
       this.page_loading = true
       const { data } = await queryPatient(formValue)
-      if (!data.success) return
-      this.loading = false
-      this.page_loading = false
-      this.DataList = data.data.data
-      this.total_count = data.data.total
+      if (data.success) {
+        this.loading = false
+        this.page_loading = false
+        this.DataList = data.data.data
+        this.total_count = data.data.total
+      } else {
+        this.$notify({
+          title: '提示',
+          message: data.errorMessage.message,
+          duration: 0,
+          type: 'warning'
+        })
+        this.loading = false
+        this.page_loading = false
+      }
     },
 
     // 查询

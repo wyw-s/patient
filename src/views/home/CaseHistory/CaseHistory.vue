@@ -3,9 +3,11 @@
   <el-card>
     <div style="margin-bottom: 20px">病历管理</div>
      <el-table
+         v-loading="loading"
         :data="CaseHistory"
         border=""
         style="width: 100%"
+        element-loading-text="拼命加载中..."
       >
         <el-table-column
           prop="readlname"
@@ -38,14 +40,14 @@
         >
         </el-table-column>
         <el-table-column
-          prop="account"
+          prop="money"
           label="就诊金额"
           width="110"
           align="center"
         >
         </el-table-column>
         <el-table-column
-          prop="remark "
+          prop="remark"
           label="订单备注"
           width="160"
           align="center"
@@ -81,7 +83,9 @@ export default {
       // 总条数；
       total_count: 0,
       // 是否禁用；
-      page_loading: false
+      page_loading: false,
+      // loadding;
+      loading: false
     }
   },
   created () {
@@ -90,6 +94,7 @@ export default {
   methods: {
     // 病例列表
     async loadList () {
+      this.loading = true
       this.page_loading = true
       if (this.$route.params.CaseInfo) {
         const { id } = this.$route.params.CaseInfo
@@ -100,6 +105,16 @@ export default {
         this.CaseHistory = data.data.data
         this.total_count = data.data.total
         this.page_loading = false
+        this.loading = false
+      } else {
+        this.$notify({
+          title: '提示',
+          message: data.errorMessage.message,
+          duration: 0,
+          type: 'warning'
+        })
+        this.page_loading = false
+        this.loading = false
       }
     },
 

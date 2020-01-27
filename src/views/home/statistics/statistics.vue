@@ -1,11 +1,11 @@
 <template>
  <div>
     <el-card class="box-card">
-    <div slot="header" class="clearfix head">
-      视图分析
-    </div>
-    <div id="MyEchartsMonth"></div>
-    <div id="MyEchartsMoney"></div>
+      <div slot="header" class="clearfix head">
+        视图分析
+      </div>
+      <div id="MyEchartsMonth"></div>
+      <div id="MyEchartsMoney"></div>
     </el-card>
  </div>
 </template>
@@ -34,7 +34,15 @@ export default {
     // 当月人数
     async monthNumber () {
       const { data } = await getMonthNumber()
-      if (!data.success) return
+      if (!data.success) {
+        this.$notify({
+          title: '提示',
+          message: data.errorMessage.message,
+          duration: 0,
+          type: 'warning'
+        })
+        return
+      }
       data.data.forEach((item) => {
         this.personData.push(item.t2)
         this.monthPerson.push(item.t1)
@@ -42,6 +50,12 @@ export default {
       this.$nextTick(() => {
         var myChart = echarts.init(document.getElementById('MyEchartsMonth'))
         let option = {
+          title: {
+            text: '图标1：当年每个月的就诊人数',
+            x: 'center',
+            y: 'bottom'
+          },
+          color: ['#61a0a8'],
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -106,6 +120,12 @@ export default {
       this.$nextTick(() => {
         var myChart = echarts.init(document.getElementById('MyEchartsMoney'))
         let option = {
+          title: {
+            text: '图标2：当年每个月的账单总额',
+            x: 'center',
+            y: 'bottom'
+          },
+          color: ['#37a2da'],
           tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -165,6 +185,7 @@ export default {
 <style lang="less" scoped>
   #MyEchartsMonth {
     height: 500px;
+    padding-bottom: 10px;
     border-bottom: 2px solid #ccc
   }
   #MyEchartsMoney {

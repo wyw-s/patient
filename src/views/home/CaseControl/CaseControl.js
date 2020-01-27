@@ -179,10 +179,10 @@ export default {
         if (!valid) return
         // 关闭对话框
         this.centerDialog = false
-        const { readlname, age, gender, phone, address } = this.addCaseInfo
+        const { readlname, age, gender, address } = this.addCaseInfo
         const newAddCaseInfo = this.addCaseInfo
         // 非空判断；
-        if (!(readlname.trim() && age.toString().trim() && phone.trim() && address.trim())) {
+        if (!(readlname.trim() && age.toString().trim() && address.trim())) {
           this.$message({
             message: '请填写完整',
             type: 'warning'

@@ -20,11 +20,13 @@
           label="症状"
           width="250"
           align="center"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="program"
           label="治疗方案"
           align="center"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           prop="doctor"

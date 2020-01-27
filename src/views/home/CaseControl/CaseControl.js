@@ -53,18 +53,18 @@ export default {
         readlname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         age: [{ required: true, message: '请输入年龄', trigger: 'blur' }],
         // gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        phone: [
-          {
-            required: true,
-            message: '请输入手机号',
-            trigger: 'blur'
-          },
-          {
-            pattern: /^1[3456789]\d{9}$/,
-            message: '请正确输入手机号',
-            trigger: 'blur'
-          }
-        ],
+        // phone: [
+        //   {
+        //     required: true,
+        //     message: '请输入手机号',
+        //     trigger: 'blur'
+        //   },
+        //   {
+        //     pattern: /^1[3456789]\d{9}$/,
+        //     message: '请正确输入手机号',
+        //     trigger: 'blur'
+        //   }
+        // ],
         address: [{ required: true, message: '请输入地址', trigger: 'blur' }]
       },
       addCaseRules: {

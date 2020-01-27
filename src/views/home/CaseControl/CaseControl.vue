@@ -81,11 +81,17 @@
         border=""
         style="width: 100%"
         element-loading-text="拼命加载中..."
+        highlight-current-row
       >
         <el-table-column align="center" prop="readlname" label="姓名" width="180"></el-table-column>
         <el-table-column align="center" prop="phone" label="手机号" width="180"></el-table-column>
         <el-table-column align="center" prop="createTime" label="日期" width="180"></el-table-column>
-        <el-table-column align="center" prop="address" label="地址"></el-table-column>
+        <el-table-column
+          align="center"
+          prop="address"
+          label="地址"
+          show-overflow-tooltip
+        ></el-table-column>
         <el-table-column align="center" prop="historyCase" label="病例操作" width="250">
           <template slot-scope="scope">
             <el-button @click="OnnewAddSase(scope.row)" size="small">新增病例</el-button>

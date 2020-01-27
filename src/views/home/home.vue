@@ -4,7 +4,7 @@
     <el-container>
       <!-- 左侧导航 -->
       <el-aside width="200px" class="l_h">
-        <div class="logo">百草堂后台管理系统</div>
+        <div class="logo"><img src="../../assets/logo.png" alt=""></div>
         <el-menu
           class="el-menu-demo nav_p"
           background-color="#545c64"
@@ -77,7 +77,12 @@ export default {
     text-align: center;
     line-height: 50px;
     color: #ffffff;
-    background-color: #1e2a36;
+    background-color: #ccc;
+    img {
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+    }
   }
   .nav_p {
     .el-menu-item {

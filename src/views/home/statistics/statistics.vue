@@ -89,9 +89,8 @@ export default {
             {
               type: 'value',
               name: '人数',
-              min: 0,
-              max: 150,
-              interval: 25,
+              minInterval: 1,
+              boundaryGap: [ 0, 0.2 ],
               axisLabel: {
                 formatter: '{value}'
               }
@@ -159,9 +158,8 @@ export default {
             {
               type: 'value',
               name: '金额',
-              min: 0,
-              max: 10000,
-              interval: 2000,
+              minInterval: 1,
+              boundaryGap: [ 0, 0.1 ],
               axisLabel: {
                 formatter: '{value}'
               }

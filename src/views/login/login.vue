@@ -9,7 +9,12 @@
           <el-input v-model.number="ruleForm.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="ruleForm.password" autocomplete="off" placeholder="请输入密码"></el-input>
+          <el-input
+            type="password"
+            v-model="ruleForm.password"
+            autocomplete="off"
+            placeholder="请输入密码"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button
@@ -53,24 +58,31 @@ export default {
   methods: {
     // 提交表单
     submitForm (ruleForm) {
-      this.$refs['ruleForm'].validate(async (valid) => {
+      this.$refs['ruleForm'].validate(async valid => {
         if (valid) {
           this.fullscreenLoading = true
-          // 请求响应
-          const { data } = await http.post('/customer/user/login', this.ruleForm)
-          if (data.success) {
+          try {
+            // 请求响应
+            const { data } = await http.post(
+              '/customer/user/login',
+              this.ruleForm
+            )
+            if (data.success) {
             // 存储token;
-            setToken(data.data)
-            // 编程式导航；
-            this.$router.push('/')
-            this.fullscreenLoading = false
-            this.$message({
-              type: 'success',
-              message: '登录成功'
-            })
-          } else {
+              setToken(data.data)
+              // 编程式导航；
+              this.$router.push('/')
+              this.$message({
+                type: 'success',
+                message: '登录成功'
+              })
+            } else {
             // 错误提示
-            this.$message.error('用户名或密码错误，请重新输入')
+              this.$message.error('用户名或密码错误，请重新输入')
+            }
+          } catch (error) {
+            this.$message.error('登录失败，请重试')
+          } finally {
             this.fullscreenLoading = false
           }
         } else {

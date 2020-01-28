@@ -105,21 +105,25 @@ export default {
     async loadList (formValue) {
       this.loading = true
       this.page_loading = true
-      const { data } = await queryPatient(formValue)
-      if (data.success) {
-        this.loading = false
-        this.page_loading = false
-        this.DataList = data.data.data
-        this.total_count = data.data.total
-      } else {
-        this.$notify({
-          title: '提示',
-          message: data.errorMessage.message,
-          duration: 0,
-          type: 'warning'
-        })
-        this.loading = false
-        this.page_loading = false
+      try {
+        const { data } = await queryPatient(formValue)
+        if (data.success) {
+          this.loading = false
+          this.page_loading = false
+          this.DataList = data.data.data
+          this.total_count = data.data.total
+        } else {
+          this.$notify({
+            title: '提示',
+            message: data.errorMessage.message,
+            duration: 0,
+            type: 'warning'
+          })
+          this.loading = false
+          this.page_loading = false
+        }
+      } catch (error) {
+        this.$message.error('获取数据失败')
       }
     },
 
@@ -128,12 +132,19 @@ export default {
       this.loading = true
       this.page_loading = true
       this.formValue.pageIndex = 1
-      const { data } = await queryPatient(this.formValue)
-      if (!data.success) return
-      this.loading = false
-      this.page_loading = false
-      this.DataList = data.data.data
-      this.total_count = data.data.total
+      try {
+        const { data } = await queryPatient(this.formValue)
+        if (!data.success) {
+          this.message.error('查询失败')
+          return
+        }
+        this.loading = false
+        this.page_loading = false
+        this.DataList = data.data.data
+        this.total_count = data.data.total
+      } catch (error) {
+        this.message.error('查询失败')
+      }
     },
 
     // 打开Dialog
@@ -195,25 +206,33 @@ export default {
           newAddCaseInfo.gender = '男'
         }
         if (this.TitleDialog === '新增患者') {
-          // 请求响应
-          const { data } = await addPatient(newAddCaseInfo)
-          if (data.success) {
-            this.$message({
-              message: '恭喜你，保存成功',
-              type: 'success'
-            })
-          } else {
+          try {
+            // 请求响应
+            const { data } = await addPatient(newAddCaseInfo)
+            if (data.success) {
+              this.$message({
+                message: '恭喜你，保存成功',
+                type: 'success'
+              })
+            } else {
+              this.$message.error('保存失败')
+            }
+          } catch (error) {
             this.$message.error('保存失败')
           }
         } else {
-          // 请求响应；
-          const { data } = await updateMessage(this.addCaseInfo)
-          if (data.success) {
-            this.$message({
-              message: '恭喜你，修改成功',
-              type: 'success'
-            })
-          } else {
+          try {
+            // 请求响应；
+            const { data } = await updateMessage(this.addCaseInfo)
+            if (data.success) {
+              this.$message({
+                message: '恭喜你，修改成功',
+                type: 'success'
+              })
+            } else {
+              this.$message.error('修改失败')
+            }
+          } catch (error) {
             this.$message.error('修改失败')
           }
         }
@@ -240,20 +259,23 @@ export default {
           if (!valid) return
           // 效验成功关闭对话框；
           this.AddCaseDialog = false
-          const { data } = await postaddCase(this.addCaseHistory)
-          if (data.success) {
-            this.$message({
-              message: '恭喜你，保存成功',
-              type: 'success'
-            })
-            this.$router.push({
-              name: 'CaseHistory',
-              params: {
-                CaseInfo: this.addCaseHistory
-              }
-            })
-            // EventBus.$emit('NewAddCase', )
-          } else {
+          try {
+            const { data } = await postaddCase(this.addCaseHistory)
+            if (data.success) {
+              this.$message({
+                message: '恭喜你，保存成功',
+                type: 'success'
+              })
+              this.$router.push({
+                name: 'CaseHistory',
+                params: {
+                  CaseInfo: this.addCaseHistory
+                }
+              })
+            } else {
+              this.$message.error('保存失败')
+            }
+          } catch (error) {
             this.$message.error('保存失败')
           }
           // 清空表单

@@ -2,6 +2,7 @@ import axios from 'axios'
 import { getToken } from './Token'
 
 const http = axios.create({
+  baseURL: 'http://106.12.205.155/customer'
 })
 
 // 添加请求拦截器

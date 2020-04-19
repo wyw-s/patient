@@ -34,15 +34,7 @@ export default {
     // 当月人数
     async monthNumber () {
       const { data } = await getMonthNumber()
-      if (!data.success) {
-        this.$notify({
-          title: '提示',
-          message: data.errorMessage.message,
-          duration: 0,
-          type: 'warning'
-        })
-        return
-      }
+      if (!data.success) return
       data.data.forEach((item) => {
         this.personData.push(item.t2)
         this.monthPerson.push(item.t1)

@@ -209,15 +209,6 @@ export default {
         this.total_count = data.data.total
         this.page_loading = false
         this.loading = false
-      } else {
-        this.$notify({
-          title: '提示',
-          message: data.errorMessage.message,
-          duration: 0,
-          type: 'warning'
-        })
-        this.page_loading = false
-        this.loading = false
       }
     },
 

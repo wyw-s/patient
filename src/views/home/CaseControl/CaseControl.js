@@ -141,15 +141,6 @@ export default {
           this.page_loading = false
           this.DataList = data.data.data
           this.total_count = data.data.total
-        } else {
-          this.$notify({
-            title: '提示',
-            message: data.errorMessage.message,
-            duration: 0,
-            type: 'warning'
-          })
-          this.loading = false
-          this.page_loading = false
         }
       } catch (error) {
         this.$message.error('获取数据失败')

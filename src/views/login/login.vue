@@ -64,7 +64,7 @@ export default {
           try {
             // 请求响应
             const { data } = await http.post(
-              '/customer/user/login',
+              '/user/login',
               this.ruleForm
             )
             if (data.success) {

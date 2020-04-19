@@ -2,13 +2,36 @@ import {
   queryPatient,
   addPatient,
   updateMessage,
-  postaddCase
+  postaddCase,
+  deletePatient
 } from '@/utils/api.js'
 import moment from 'moment'
+
 export default {
   name: 'case_control',
   data () {
     return {
+      // 标题
+      tabelData: [
+        {
+          label: '姓名',
+          prop: 'readlname',
+          width: '80',
+          align: 'center'
+        },
+        {
+          label: '手机号',
+          prop: 'phone',
+          width: '120',
+          align: 'center'
+        },
+        {
+          label: '日期',
+          prop: 'createTime',
+          width: '180',
+          align: 'center'
+        }
+      ],
       // 列表查询
       formValue: {
         phone: null,
@@ -82,14 +105,13 @@ export default {
     formValue: {
       handler (type) {
         if ((type.phone === '' ||
-        type.phone === null) &&
-        (type.readlname === '' ||
-        type.readlname === null)) {
+          type.phone === null) &&
+          (type.readlname === '' ||
+            type.readlname === null)) {
           // 加载列表数据
-          const newformValue = this.formValue
-          newformValue.phone = null
-          newformValue.readlname = null
-          this.loadList(newformValue)
+          this.formValue.phone = null
+          this.formValue.readlname = null
+          this.loadList()
         }
       },
       deep: true
@@ -98,15 +120,22 @@ export default {
 
   created () {
     // 加载列表数据
-    this.loadList(this.formValue)
+    this.loadList()
   },
   methods: {
     // 加载列表信息
-    async loadList (formValue) {
+    async loadList () {
       this.loading = true
       this.page_loading = true
+      const { phone, readlname, pageIndex, pageSize } = this.formValue
+      const params = {
+        phone,
+        readlname,
+        pageIndex,
+        pageSize
+      }
       try {
-        const { data } = await queryPatient(formValue)
+        const { data } = await queryPatient(params)
         if (data.success) {
           this.loading = false
           this.page_loading = false
@@ -187,7 +216,13 @@ export default {
     // 保存患者信息；
     OnSaveInfo () {
       this.$refs['addForm'].validate(async (valid) => {
-        if (!valid) return
+        if (!valid) {
+          this.$message({
+            message: '* 号为必填项，请重新输入',
+            type: 'warning'
+          })
+          return
+        }
         // 关闭对话框
         this.centerDialog = false
         const { readlname, age, gender, address } = this.addCaseInfo
@@ -241,7 +276,7 @@ export default {
         // 重置效验
         this.$refs['addForm'].clearValidate()
         // 刷新列表信息
-        this.loadList(this.formValue)
+        this.loadList()
       })
     },
 
@@ -256,7 +291,13 @@ export default {
     OnSaveAddCase (type) {
       if (type) {
         this.$refs['addCaseForm'].validate(async (valid) => {
-          if (!valid) return
+          if (!valid) {
+            this.$message({
+              message: '* 号为必填项，请重新输入',
+              type: 'warning'
+            })
+            return
+          }
           // 效验成功关闭对话框；
           this.AddCaseDialog = false
           try {
@@ -310,11 +351,35 @@ export default {
       this.openDialog()
     },
 
+    // 删除：
+    onDelete (row) {
+      this.$confirm(`
+      此操作不可恢复！会同时删除${row.readlname}的历史病例和订单, 真的要删除吗?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data } = await deletePatient(row.id)
+        if (data.success) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.loadList()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '删除失败!'
+          })
+        }
+      }).catch(() => {})
+    },
+
     // 查看当前页；
     onPageChange (page) {
       this.formValue.pageIndex = page
       // 加载列表数据
-      this.loadList(this.formValue)
+      this.loadList()
     }
   }
 }

@@ -62,10 +62,20 @@
         <div>
           <el-form :inline="true" :model="formValue" class="demo-form-inline">
             <el-form-item>
-              <el-input v-model="formValue.phone" placeholder="根据手机号查询患者"></el-input>
+              <el-input
+                clearable
+                @change="loadList()"
+                v-model="formValue.phone"
+                placeholder="根据手机号查询患者"
+              ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="formValue.readlname" placeholder="根据姓名模糊查询患者"></el-input>
+              <el-input
+                clearable
+                @change="loadList()"
+                v-model="formValue.readlname"
+                placeholder="根据姓名模糊查询患者"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onQuery">查询</el-button>
@@ -83,35 +93,67 @@
         element-loading-text="拼命加载中..."
         highlight-current-row
       >
-        <el-table-column align="center" prop="readlname" label="姓名" width="180"></el-table-column>
-        <el-table-column align="center" prop="phone" label="手机号" width="180"></el-table-column>
-        <el-table-column align="center" prop="createTime" label="日期" width="180"></el-table-column>
+        <template
+          v-for="(item, index) in tabelData"
+        >
+          <el-table-column
+            :key="index"
+            :align="item.align"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+          ></el-table-column>
+        </template>
         <el-table-column
           align="center"
           prop="address"
           label="地址"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column align="center" prop="historyCase" label="病例操作" width="250">
+        <el-table-column
+          align="center"
+          prop="historyCase"
+          label="病例操作"
+          width="250"
+        >
           <template slot-scope="scope">
-            <el-button @click="OnnewAddSase(scope.row)" size="small">新增病例</el-button>
-            <el-button @click="OnReview(scope.row)" size="small">查看以往病例</el-button>
+            <el-button
+              @click="OnnewAddSase(scope.row)"
+              size="small"
+            >新增病例
+            </el-button>
+            <el-button
+              @click="OnReview(scope.row)"
+              size="small"
+            >查看以往病例
+            </el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="operation " label="操作" width="130">
+        <el-table-column align="center" prop="operation " label="操作" width="150">
           <template slot-scope="scope">
-            <el-button size="small" type="success" @click="onEdit(scope.row)">编辑</el-button>
+            <el-button
+              size="mini"
+              type="success"
+              @click="onEdit(scope.row)"
+            >编辑
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="onDelete(scope.row)"
+            >删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="laypage">
         <el-pagination
-            :current-page="formValue.pageIndex"
-            @current-change="onPageChange"
-            :disabled ="page_loading"
-            background
-            layout="prev, pager, next, total"
-            :total="total_count">
+          :current-page="formValue.pageIndex"
+          @current-change="onPageChange"
+          :disabled="page_loading"
+          background
+          layout="prev, pager, next, total"
+          :total="total_count">
         </el-pagination>
       </div>
       <!-- 对话框 -->
@@ -120,7 +162,7 @@
         title="新增病例"
         :visible.sync="AddCaseDialog"
         :close-on-click-modal="false"
-         width="40%"
+        width="40%"
         center
         modal
       >
@@ -163,26 +205,30 @@
 <script src="./CaseControl.js"></script>
 
 <style lang="less" scoped>
-.box-card {
-  width: 100%;
-  .head {
-    display: flex;
-    justify-content: space-between;
-    > div:first-child {
-      .el-button--default {
-        margin-right: 10px;
+  .box-card {
+    width: 100%;
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+
+      > div:first-child {
+        .el-button--default {
+          margin-right: 10px;
+        }
+      }
+
+      > div:last-child {
+        .el-form-item {
+          margin: 0 10px;
+        }
       }
     }
-    > div:last-child {
-      .el-form-item {
-        margin: 0 10px;
-      }
+
+    .laypage {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
     }
   }
-  .laypage {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-}
 </style>

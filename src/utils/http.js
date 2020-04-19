@@ -7,7 +7,7 @@ const http = axios.create({
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
   // 判断token是否存在
-  if (getToken() && !config.url.startsWith('/customer/user/login')) {
+  if (getToken() && !config.url.startsWith('/user/login')) {
     // 添加认证信息
     config.headers['Authorization'] = getToken()
   }

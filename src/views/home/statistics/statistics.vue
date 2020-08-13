@@ -12,7 +12,7 @@
 
 <script>
 import echarts from 'echarts'
-import { getMonthNumber, getmonthMoney } from '@/utils/api.js'
+import { getMonthNumber, getmonthMoney } from '@/api/PatientManage.js'
 export default {
   name: 'statistics',
   data () {

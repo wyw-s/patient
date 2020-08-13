@@ -6,7 +6,7 @@ import CaseControl from '../views/home/CaseControl/CaseControl.vue'
 import CaseHistory from '../views/home/CaseHistory/CaseHistory.vue'
 import statistics from '../views/home/statistics/statistics.vue'
 import NProgress from 'nprogress'
-import { getToken } from '../utils/Token'
+import { getToken } from '../utils/storage.js'
 
 Vue.use(VueRouter)
 

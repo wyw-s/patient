@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import http from '@/utils/http.js'
-import { setToken } from '@/utils/Token.js'
+import http from '@/api/http.js'
+import { setToken } from '@/utils/storage.js'
 export default {
   data () {
     return {

@@ -4,7 +4,7 @@ import {
   updateMessage,
   postaddCase,
   deletePatient
-} from '@/utils/api.js'
+} from '@/api/PatientManage.js'
 import moment from 'moment'
 
 export default {

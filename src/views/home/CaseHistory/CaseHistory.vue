@@ -132,7 +132,7 @@ import {
   getCaseHistory,
   postDeleteCase,
   postEditCase
-} from '@/utils/api.js'
+} from '@/api/PatientManage.js'
 export default {
   name: 'Case_History',
   data () {

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { remTOken } from '@/utils/Token.js'
+import { remTOken } from '@/utils/storage.js'
 export default {
   name: 'nav_',
   data () {

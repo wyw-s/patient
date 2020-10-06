@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../views/login/login.vue'
-import home from '../views/home/home.vue'
-import CaseControl from '../views/home/CaseControl/CaseControl.vue'
-import CaseHistory from '../views/home/CaseHistory/CaseHistory.vue'
-import statistics from '../views/home/statistics/statistics.vue'
 import NProgress from 'nprogress'
-import { getToken } from '../utils/storage.js'
+
+const originVueRouter = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location) {
+  return originVueRouter.call(this, location).catch(error => error)
+}
 
 Vue.use(VueRouter)
 
@@ -14,25 +13,38 @@ const routes = [
   // 用户登录
   {
     path: '/login',
-    component: login
+    name: 'login',
+    component: () => import('@/views/login/index.vue')
   },
   {
     path: '/',
-    component: home,
+    component: () => import('@/views/layout'),
+    redirect: 'statistics',
     children: [
       {
-        // 默认路由
-        path: '',
-        component: CaseControl
+        path: 'statistics',
+        name: 'statistics',
+        component: () => import('@/views/statistics')
       },
       {
+        path: 'caseManage',
+        name: 'caseManage',
+        component: () => import('@/views/caseManage')
+      },
+      {
+        path: 'userCase',
+        name: 'userCase',
+        component: () => import('@/components/caseManage/userCase')
+      },
+      {
+        path: 'caseHistory',
         name: 'CaseHistory',
-        path: '/CaseHistory',
-        component: CaseHistory
+        component: () => import('@/views/caseHistory')
       },
       {
-        path: '/statistics',
-        component: statistics
+        path: 'dictionaries',
+        name: 'dictionaries',
+        component: () => import('@/views/dictionaries')
       }
     ]
   }
@@ -45,13 +57,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // 开启进度条；
   NProgress.start()
-  if (to.path === '/login') {
-    next()
-  } else if (getToken()) {
-    next()
-  } else {
+  if (to.name !== 'login' && !window.sessionStorage.getItem('Token')) {
     next('/login')
-  }
+    NProgress.done()
+  } else next()
 })
 
 /*

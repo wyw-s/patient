@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { getToken } from '@/utils/storage.js'
+import router from '@/router'
+import { tooltip } from '@/utils/globalMeth'
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL
@@ -8,9 +9,9 @@ const http = axios.create({
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
   // 判断token是否存在
-  if (getToken() && !config.url.startsWith('/user/login')) {
+  if (window.sessionStorage.getItem('Token') && !config.url.startsWith('/user/login')) {
     // 添加认证信息
-    config.headers['Authorization'] = getToken()
+    config.headers['Authorization'] = window.sessionStorage.getItem('Token')
   }
   // 在发送请求之前做些什么
   return config
@@ -21,19 +22,14 @@ http.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 http.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
   if (!response.data.success && response.data.errorMessage.code === 403) {
-    window.vm.$notify({
-      title: '提示',
-      message: `${response.data.errorMessage.message},即将跳转到登陆页面...`,
-      duration: 2000,
-      type: 'warning'
-    })
+    tooltip(`${response.data.errorMessage.message},即将跳转到登陆页面...`, 'warning')
     window.setTimeout(() => {
-      window.vm.$router.push('/login')
+      router.push('/login')
     }, 2000)
+    return
   }
-  return response
+  return response.data
 }, function (error) {
   // 对响应错误做点什么
   return Promise.reject(error)

@@ -70,7 +70,7 @@ export function getCaseHistory (params) {
   return http({
     url: '/history/case',
     method: 'GET',
-    query: { params }
+    params
   })
 }
 

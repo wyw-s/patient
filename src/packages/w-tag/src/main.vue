@@ -66,12 +66,13 @@ export default {
 
 <style lang="less" scoped>
 .w-tag-group {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
   font-size: 12px;
   color: #409eff;
 
   .w-tag {
-    display: inherit;
     height: 32px;
     line-height: 30px;
     padding: 0 10px;

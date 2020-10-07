@@ -103,7 +103,11 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="消费金额(元)" prop="account">
-          <el-input :disabled="disabled" v-model="rowEditCase.account"></el-input>
+          <el-input
+            :disabled="disabled"
+            v-model="rowEditCase.account"
+            @input="rowEditCase.account = $numFormat('dot', rowEditCase.account)">
+          </el-input>
         </el-form-item>
         <el-form-item label="订单备注" prop="remark">
           <el-input :disabled="disabled" v-model="rowEditCase.remark"></el-input>
@@ -201,6 +205,7 @@ export default {
     // 新增病例；
     onNewAddSase () {
       this.title = '新增病例'
+      this.disabled = false
       this.rowEditCase.caseTime = `${moment(new Date()).format('YYYY-MM-DD')}`
       this.AddCaseDialog = true
     },
@@ -312,5 +317,8 @@ export default {
     display: flex;
     flex-direction: row-reverse;
   }
+}
+/deep/.el-date-editor {
+  width: 100%;
 }
 </style>

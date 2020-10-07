@@ -6,7 +6,7 @@
       </div>
       <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
         <el-form-item prop="username">
-          <el-input v-model.number="ruleForm.username" placeholder="请输入用户名"></el-input>
+          <el-input v-model.number="ruleForm.username" placeholder="请输入用户名" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -14,6 +14,7 @@
             v-model="ruleForm.password"
             autocomplete="off"
             placeholder="请输入密码"
+            prefix-icon="el-icon-lock"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -89,11 +90,11 @@ export default {
   background-size: cover;
   height: 97vh;
   .box-card {
-    width: 400px;
+    width: 300px;
     margin: 0 auto;
     position: absolute;
     top: 50%;
-    left: 70%;
+    left: 75%;
     transform: translate(-50%, -50%);
     /deep/ .el-card__header {
       text-align: center;

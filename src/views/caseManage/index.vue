@@ -94,7 +94,12 @@
           <el-input :disabled="viewCaseInfo" v-model.trim="addCaseInfo.readlname"></el-input>
         </el-form-item>
         <el-form-item label="年龄" prop="age">
-          <el-input :disabled="viewCaseInfo" type="Number" v-model.trim="addCaseInfo.age"></el-input>
+          <el-input
+            :maxlength="3"
+            :disabled="viewCaseInfo"
+            v-model.trim="addCaseInfo.age"
+            @input="addCaseInfo.age = $numFormat('int', addCaseInfo.age)"
+          ></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-select
@@ -114,7 +119,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
-          <el-input :disabled="viewCaseInfo" v-model.trim="addCaseInfo.phone"></el-input>
+          <el-input
+            :disabled="viewCaseInfo"
+            v-model.trim="addCaseInfo.phone"
+            :maxlength="11"
+            @input="addCaseInfo.phone = $numFormat('int', addCaseInfo.phone)"
+          ></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input :disabled="viewCaseInfo" v-model.trim="addCaseInfo.address"></el-input>

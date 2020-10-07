@@ -1,12 +1,15 @@
 <template>
   <div class="dicTab">
-    <div class="tag-group">
-      <span class="tag-group__title">治疗方案：</span>
-      <w-tag :items="dicProject" @delete="onDel" @newAdd="onNewTag"></w-tag>
-    </div>
-    <div class="tag-group">
-      <span class="tag-group__title">治疗医生：</span>
-      <w-tag :items="dicProject" @delete="onDel" @newAdd="onNewTag"></w-tag>
+    <div
+      v-for="(item, index) in viewData"
+      :key="index"
+      class="tag-group">
+      <span class="tag-group__title">{{ item.dicName }}</span>
+      <w-tag
+        :items="item.dicData"
+        @delete="onDel($event, item)"
+        @newAdd="onNewTag($event, item)">
+      </w-tag>
     </div>
   </div>
 </template>
@@ -16,31 +19,35 @@ export default {
   name: 'dicTab',
   data () {
     return {
-      dicProject: ['中药外敷', '正骨理疗']
-    }
-  },
-  watch: {
-    dicProject () {
-      let value = JSON.parse(this.$getLocal('dictManages'))
-      value.treatProject = this.dicProject
-      this.$setLocal('dictManages', value)
+      viewData: [
+        { prop: 'dicProject', dicName: '治疗方案：', dicData: ['中药外敷', '正骨理疗'] },
+        { prop: 'dicDoctor', dicName: '诊治医生：', dicData: ['王建设', '赵珍'] }
+      ],
+      allLOcalData: JSON.parse(this.$getLocal('dictManages'))
     }
   },
   created () {
-    let value = this.$getLocal('dictManages').treatProject
-    if (!value) {
-      value = JSON.parse(this.$getLocal('dictManages'))
-      value.treatProject = []
-      this.$setLocal('dictManages', value)
-    }
-    this.dicProject = value.treatProject
+    this.viewData.forEach(item => {
+      let next = true
+      for (const key in this.allLOcalData) {
+        if (item.prop === key) {
+          item.dicData = this.allLOcalData[key]
+          next = false
+        }
+      }
+      if (next) {
+        this.allLOcalData[item.prop] = item.dicData
+      }
+    })
   },
   methods: {
-    onDel (index) {
-      this.dicProject.splice(index, 1)
+    onDel (index, item) {
+      item.dicData.splice(index, 1)
+      this.$setLocal('dictManages', this.allLOcalData)
     },
-    onNewTag (value) {
-      this.dicProject.push(value)
+    onNewTag (value, item) {
+      item.dicData.push(value)
+      this.$setLocal('dictManages', this.allLOcalData)
     }
   }
 }
@@ -49,7 +56,17 @@ export default {
 <style lang="less" scoped>
 .dicTab {
   .tag-group {
+    display: flex;
     margin-bottom: 12px;
+    .tag-group__title {
+      width: 80px;
+      flex-shrink: 0;
+    }
+    /deep/.w-tag-group {
+      .w-tag {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 </style>

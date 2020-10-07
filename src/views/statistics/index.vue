@@ -79,13 +79,13 @@ export default {
       monthMoneyData: [],
       tableDataPerson: [],
       tableDataMoney: [],
-      bigNum: [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ]
+      bigNum: [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+      ageGroup: ['20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '80以上']
     }
   },
   created () {
     this.monthNumber()
     this.monthMoney()
-    this.moneyOrPerson()
     this.genderView()
     this.ageViewMan()
     this.ageViewWoman()
@@ -94,7 +94,7 @@ export default {
     // 性别分析
     genderView () {
       this.$nextTick(() => {
-        var myChart = echarts.init(document.getElementById('cakeViewOne'))
+        const myChart = echarts.init(document.getElementById('cakeViewOne'))
         let option = {
           title: {
             text: '性别分析',
@@ -114,8 +114,8 @@ export default {
             {
               name: '来源',
               type: 'pie',
-              radius: '60%',
-              center: ['50%', '60%'],
+              radius: '45%',
+              center: ['50%', '65%'],
               data: [
                 { value: 335, name: '男' },
                 { value: 310, name: '女' }
@@ -136,7 +136,7 @@ export default {
     // 年龄分析
     ageViewMan () {
       this.$nextTick(() => {
-        var myChart = echarts.init(document.getElementById('cakeViewTwo'))
+        const myChart = echarts.init(document.getElementById('cakeViewTwo'))
         let option = {
           title: {
             text: '年龄分析(男)',
@@ -150,17 +150,25 @@ export default {
           legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['一月', '二月']
+            data: this.ageGroup,
+            itemWidth: 20,
+            itemHeight: 10,
+            itemGap: 3
           },
           series: [
             {
               name: '来源',
               type: 'pie',
-              radius: '60%',
-              center: ['50%', '60%'],
+              radius: '45%',
+              center: ['50%', '65%'],
               data: [
-                { value: 335, name: '一月' },
-                { value: 310, name: '二月' }
+                { value: 335, name: '20~29' },
+                { value: 310, name: '30~39' },
+                { value: 310, name: '40~49' },
+                { value: 310, name: '50~59' },
+                { value: 310, name: '60~69' },
+                { value: 310, name: '70~79' },
+                { value: 310, name: '80以上' }
               ],
               emphasis: {
                 itemStyle: {
@@ -177,7 +185,7 @@ export default {
     },
     ageViewWoman () {
       this.$nextTick(() => {
-        var myChart = echarts.init(document.getElementById('cakeViewThree'))
+        const myChart = echarts.init(document.getElementById('cakeViewThree'))
         let option = {
           title: {
             text: '年龄分析(女)',
@@ -191,14 +199,17 @@ export default {
           legend: {
             orient: 'vertical',
             left: 'left',
-            data: ['20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '80以上']
+            data: this.ageGroup,
+            itemWidth: 20,
+            itemHeight: 10,
+            itemGap: 3
           },
           series: [
             {
               name: '来源',
               type: 'pie',
               radius: '45%',
-              center: ['50%', '60%'],
+              center: ['50%', '65%'],
               data: [
                 { value: 335, name: '20~29' },
                 { value: 310, name: '30~39' },
@@ -233,8 +244,9 @@ export default {
             num: item.t2
           })
         })
+        this.moneyOrPerson()
         this.$nextTick(() => {
-          var myChart = echarts.init(document.getElementById('MyEchartsMonth'))
+          const myChart = echarts.init(document.getElementById('MyEchartsMonth'))
           let option = {
             title: {
               text: '图1：当年每个月的就诊人数',
@@ -307,8 +319,9 @@ export default {
             money: item.t2
           })
         })
+        this.moneyOrPerson()
         this.$nextTick(() => {
-          var myChart = echarts.init(document.getElementById('MyEchartsMoney'))
+          const myChart = echarts.init(document.getElementById('MyEchartsMoney'))
           let option = {
             title: {
               text: '图标2：当年每个月的账单总额',
@@ -372,9 +385,8 @@ export default {
     // 金额和人数
     moneyOrPerson () {
       this.$nextTick(() => {
-        var myChart = echarts.init(document.getElementById('MoneyOrPerson'))
-        var colors = ['#5793f3', '#d14a61', '#675bba']
-
+        const myChart = echarts.init(document.getElementById('MoneyOrPerson'))
+        const colors = ['#5793f3', '#d14a61', '#675bba']
         let option = {
           title: {
             text: '图3：当年每个月的就诊人数和金额',
@@ -399,7 +411,7 @@ export default {
             }
           },
           legend: {
-            data: ['就诊人数', '就诊金额']
+            data: ['就诊人数', '就诊金额', '人均金额']
           },
           xAxis: [
             {
@@ -407,54 +419,57 @@ export default {
               axisTick: {
                 alignWithLabel: true
               },
-              data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+              data: this.everyMonth
             }
           ],
           yAxis: [
             {
               type: 'value',
-              name: '就诊金额',
-              min: 0,
-              max: 250,
-              position: 'right',
+              name: '就诊人数',
+              minInterval: 1,
+              boundaryGap: [0, 0.1],
+              position: 'left',
               axisLine: {
                 lineStyle: {
                   color: colors[0]
                 }
               },
               axisLabel: {
-                formatter: '{value} ml'
+                formatter: '{value}'
               }
             },
             {
               type: 'value',
-              name: '就诊',
-              min: 0,
-              max: 250,
+              name: '就诊金额',
+              minInterval: 1,
+              boundaryGap: [0, 0.1],
               position: 'right',
-              offset: 80,
               axisLine: {
                 lineStyle: {
                   color: colors[1]
                 }
               },
               axisLabel: {
-                formatter: '{value} ml'
+                formatter: '{value} 元'
               }
             },
             {
               type: 'value',
-              name: '就诊人数',
-              min: 0,
-              max: 25,
-              position: 'left',
+              name: '人均金额',
+              minInterval: 1,
+              boundaryGap: [0, 0.1],
+              position: 'right',
+              offset: 80,
               axisLine: {
                 lineStyle: {
                   color: colors[2]
                 }
               },
               axisLabel: {
-                formatter: '{value} °C'
+                formatter: '{value} 元/人'
+              },
+              minorTick: {
+                show: false
               }
             }
           ],
@@ -462,19 +477,21 @@ export default {
             {
               name: '就诊人数',
               type: 'bar',
-              data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+              data: this.personData
             },
             {
               name: '就诊金额',
               type: 'bar',
               yAxisIndex: 1,
-              data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+              data: this.monthMoneyData
             },
             {
               name: '人均金额',
               type: 'line',
               yAxisIndex: 2,
-              data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+              data: this.monthMoneyData.map((item, index) => {
+                return item / this.personData[index] && (item / this.personData[index]).toFixed(2)
+              })
             }
           ]
         }

@@ -7,7 +7,7 @@ import http from '@/api/http.js'
 // 新增患者
 export function addPatient (data) {
   return http({
-    url: '/user/patient',
+    url: '/customer/user/patient',
     method: 'POST',
     data
   })
@@ -16,7 +16,7 @@ export function addPatient (data) {
 // 删除患者；
 export function deletePatient (userId) {
   return http({
-    url: `/user/patient/${userId}`,
+    url: `/customer/user/patient/${userId}`,
     method: 'DELETE'
   })
 }
@@ -25,7 +25,7 @@ export function deletePatient (userId) {
 export function queryPatient (params) {
   return http({
     method: 'GET',
-    url: '/user/patient',
+    url: '/customer/user/patient',
     params
   })
 }
@@ -33,7 +33,7 @@ export function queryPatient (params) {
 // 更新患者信息
 export function updateMessage (data) {
   return http({
-    url: '/user/patient',
+    url: '/customer/user/patient',
     method: 'PUT',
     data
   })
@@ -42,7 +42,7 @@ export function updateMessage (data) {
 // 新增病例；
 export function postaddCase (data) {
   return http({
-    url: '/history/case',
+    url: '/customer/history/case',
     method: 'POST',
     data
   })
@@ -51,7 +51,7 @@ export function postaddCase (data) {
 // 删除病例；
 export function postDeleteCase (id) {
   return http({
-    url: `/history/case/${id}`,
+    url: `/customer/history/case/${id}`,
     method: 'DELETE'
   })
 }
@@ -59,7 +59,7 @@ export function postDeleteCase (id) {
 // 修改病例；
 export function postEditCase (data) {
   return http({
-    url: '/history/case',
+    url: '/customer/history/case',
     method: 'PUT',
     data
   })
@@ -68,7 +68,7 @@ export function postEditCase (data) {
 // 查看当前患者以往病例
 export function getCaseHistory (params) {
   return http({
-    url: '/history/case',
+    url: '/customer/history/case',
     method: 'GET',
     params
   })
@@ -77,7 +77,7 @@ export function getCaseHistory (params) {
 // 显示当年每个月的就诊人数
 export function getMonthNumber () {
   return http({
-    url: '/report/user/month',
+    url: '/customer/report/user/month',
     method: 'GET'
   })
 }
@@ -85,7 +85,7 @@ export function getMonthNumber () {
 // 显示当年每个月的账单总额
 export function getmonthMoney () {
   return http({
-    url: '/report/account/month',
+    url: '/customer/report/account/month',
     method: 'GET'
   })
 }

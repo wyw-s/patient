@@ -365,9 +365,10 @@ export default {
     // 删除：
     onDelete (row) {
       this.$confirm(`
-      此操作不可恢复！会同时删除${row.readlname}的历史病例和订单, 真的要删除吗?`, '提示', {
+      此操作不可恢复！会同时删除<b style="color: red">${row.readlname}</b>的历史病例和订单, 真的要删除吗?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        dangerouslyUseHTMLString: true,
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('deletePatient', row.id).then(res => {

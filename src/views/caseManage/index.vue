@@ -10,15 +10,17 @@
         <el-input
           clearable
           size="small"
-          @change="loadList()"
-          v-model="formValue.phone"
+          @keyup.enter.native="loadList"
+          @clear="loadList"
+          v-model.trim="formValue.phone"
           placeholder="根据手机号查询患者"
         ></el-input>
         <el-input
           clearable
           size="small"
-          @change="loadList()"
-          v-model="formValue.readlname"
+          @keyup.enter.native="loadList"
+          @clear="loadList"
+          v-model.trim="formValue.readlname"
           placeholder="根据姓名模糊查询患者"
         ></el-input>
         <el-button size="small" type="primary" plain icon="el-icon-search" @click="onQuery">搜索</el-button>
@@ -258,8 +260,8 @@ export default {
         }
         this.loading = false
         this.page_loading = false
-        this.DataList = res.data
-        this.total_count = res.total
+        this.DataList = res.data.data
+        this.total_count = res.data.total
       }).catch(() => {
         this.$tooltip('查询失败', 'error')
       })

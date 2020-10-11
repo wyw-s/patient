@@ -1,14 +1,11 @@
 <template>
   <el-card shadow="never" header="视图分析">
-    <div class="cakeView m-b">
-      <el-card shadow="hover" class="m-r">
+    <div class="cakeView m-b topView">
+      <el-card shadow="hover" class="m-r cakeView-sex">
         <div id="cakeViewOne"></div>
       </el-card>
-      <el-card shadow="hover" class="m-r">
+      <el-card shadow="hover" class="cakeView-age">
         <div id="cakeViewTwo"></div>
-      </el-card>
-      <el-card shadow="hover">
-        <div id="cakeViewThree"></div>
       </el-card>
     </div>
     <div class="cakeView m-b">
@@ -67,6 +64,7 @@
 
 <script>
 import echarts from 'echarts'
+
 export default {
   name: 'statistics',
   data () {
@@ -79,26 +77,47 @@ export default {
       monthMoneyData: [],
       tableDataPerson: [],
       tableDataMoney: [],
-      bigNum: [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
-      ageGroup: ['20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '80以上']
+      userInfoList: [],
+      bigNum: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+      ageGroup: ['20以下', '20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '80以上']
     }
   },
   created () {
+    this.getCaseInfo()
     this.monthNumber()
     this.monthMoney()
-    this.genderView()
-    this.ageViewMan()
-    this.ageViewWoman()
   },
   methods: {
+    getCaseInfo () {
+      this.$store.dispatch('queryPatient', {
+        phone: null,
+        readlname: null,
+        pageIndex: 1,
+        pageSize: 9999
+      }).then(res => {
+        if (!res.success) return
+        this.userInfoList = res.data.data
+        this.genderView(res.data.data)
+        this.ageViewMan(res.data.data)
+      })
+    },
     // 性别分析
-    genderView () {
+    genderView (data) {
+      let man = { value: 0, name: '男' }
+      let woman = { value: 0, name: '女' }
+      for (const item of data) {
+        if (item.gender === '男') {
+          man.value = man.value + 1
+        } else {
+          woman.value = woman.value + 1
+        }
+      }
       this.$nextTick(() => {
         const myChart = echarts.init(document.getElementById('cakeViewOne'))
         let option = {
           title: {
             text: '性别分析',
-            subtext: '仅作参考',
+            subtext: '数据来源取自患者列表',
             left: 'center'
           },
           tooltip: {
@@ -112,14 +131,11 @@ export default {
           },
           series: [
             {
-              name: '来源',
+              name: '来源: ',
               type: 'pie',
               radius: '45%',
               center: ['50%', '65%'],
-              data: [
-                { value: 335, name: '男' },
-                { value: 310, name: '女' }
-              ],
+              data: [ man, woman ],
               emphasis: {
                 itemStyle: {
                   shadowBlur: 10,
@@ -134,98 +150,74 @@ export default {
       })
     },
     // 年龄分析
-    ageViewMan () {
+    ageViewMan (data) {
+      const { man, woman } = this.ageGroupFn(data)
+      const ageMan = []
+      const ageWoman = []
+      for (let i = 0; i < this.ageGroup.length; i++) {
+        if (man[this.ageGroup[i]]) {
+          ageMan.push(man[this.ageGroup[i]])
+        } else {
+          ageMan.push(0)
+        }
+        if (woman[this.ageGroup[i]]) {
+          ageWoman.push(woman[this.ageGroup[i]])
+        } else {
+          ageWoman.push(0)
+        }
+      }
       this.$nextTick(() => {
         const myChart = echarts.init(document.getElementById('cakeViewTwo'))
         let option = {
           title: {
-            text: '年龄分析(男)',
-            subtext: '仅作参考',
+            text: '年龄分析',
+            subtext: '数据来源取自患者列表',
             left: 'center'
           },
           tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
-          },
-          legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: this.ageGroup,
-            itemWidth: 20,
-            itemHeight: 10,
-            itemGap: 3
-          },
-          series: [
-            {
-              name: '来源',
-              type: 'pie',
-              radius: '45%',
-              center: ['50%', '65%'],
-              data: [
-                { value: 335, name: '20~29' },
-                { value: 310, name: '30~39' },
-                { value: 310, name: '40~49' },
-                { value: 310, name: '50~59' },
-                { value: 310, name: '60~69' },
-                { value: 310, name: '70~79' },
-                { value: 310, name: '80以上' }
-              ],
-              emphasis: {
-                itemStyle: {
-                  shadowBlur: 10,
-                  shadowOffsetX: 0,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-              }
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
             }
-          ]
-        }
-        myChart.setOption(option)
-      })
-    },
-    ageViewWoman () {
-      this.$nextTick(() => {
-        const myChart = echarts.init(document.getElementById('cakeViewThree'))
-        let option = {
-          title: {
-            text: '年龄分析(女)',
-            subtext: '仅作参考',
-            left: 'center'
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
           },
           legend: {
-            orient: 'vertical',
             left: 'left',
-            data: this.ageGroup,
-            itemWidth: 20,
-            itemHeight: 10,
-            itemGap: 3
+            data: ['男', '女']
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'value'
+          },
+          yAxis: {
+            type: 'category',
+            offset: 7,
+            data: this.ageGroup
           },
           series: [
             {
-              name: '来源',
-              type: 'pie',
-              radius: '45%',
-              center: ['50%', '65%'],
-              data: [
-                { value: 335, name: '20~29' },
-                { value: 310, name: '30~39' },
-                { value: 310, name: '40~49' },
-                { value: 310, name: '50~59' },
-                { value: 310, name: '60~69' },
-                { value: 310, name: '70~79' },
-                { value: 310, name: '80以上' }
-              ],
-              emphasis: {
-                itemStyle: {
-                  shadowBlur: 10,
-                  shadowOffsetX: 0,
-                  shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-              }
+              name: '男',
+              type: 'bar',
+              stack: '总量',
+              label: {
+                show: true,
+                position: 'insideRight'
+              },
+              data: ageMan
+            },
+            {
+              name: '女',
+              type: 'bar',
+              stack: '总量',
+              label: {
+                show: true,
+                position: 'insideRight'
+              },
+              data: ageWoman
             }
           ]
         }
@@ -288,7 +280,7 @@ export default {
                 type: 'value',
                 name: '人数',
                 minInterval: 1,
-                boundaryGap: [ 0, 0.2 ],
+                boundaryGap: [0, 0.2],
                 axisLabel: {
                   formatter: '{value}'
                 }
@@ -363,7 +355,7 @@ export default {
                 type: 'value',
                 name: '金额',
                 minInterval: 1,
-                boundaryGap: [ 0, 0.1 ],
+                boundaryGap: [0, 0.1],
                 axisLabel: {
                   formatter: '{value}'
                 }
@@ -497,37 +489,100 @@ export default {
         }
         myChart.setOption(option)
       })
+    },
+
+    ageGroupFn (data) {
+      const obj = {
+        man: {},
+        woman: {}
+      }
+      let key
+      for (const item of data) {
+        const str = item.age.toString()
+        if (item.gender === '男') {
+          key = 'man'
+        } else {
+          key = 'woman'
+        }
+        if (str.length === 1 || str < 20) {
+          obj[key]['20以下'] = obj[key]['20以下'] ? obj[key]['20以下'] + 1 : 1
+        } else {
+          switch (true) {
+            case str < 29:
+              obj[key]['20~29'] = obj[key]['20~29'] ? obj[key]['20~29'] + 1 : 1
+              break
+            case str < 39:
+              obj[key]['30~39'] = obj[key]['30~39'] ? obj[key]['30~39'] + 1 : 1
+              break
+            case str < 49:
+              obj[key]['40~49'] = obj[key]['40~49'] ? obj[key]['40~49'] + 1 : 1
+              break
+            case str < 59:
+              obj[key]['50~59'] = obj[key]['50~59'] ? obj[key]['50~59'] + 1 : 1
+              break
+            case str < 69:
+              obj[key]['60~69'] = obj[key]['60~69'] ? obj[key]['60~69'] + 1 : 1
+              break
+            case str < 79:
+              obj[key]['70~79'] = obj[key]['70~79'] ? obj[key]['70~79'] + 1 : 1
+              break
+            case str >= 80:
+              obj[key]['80以上'] = obj[key]['80以上'] ? obj[key]['80以上'] + 1 : 1
+              break
+          }
+        }
+      }
+      return obj
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  #MyEchartsMonth {
-    height: 500px;
+.cakeView {
+  display: flex;
+  /deep/.el-card {
+    .el-card__body {
+      height: 100%;
+    }
   }
-  #MyEchartsMoney {
-    height: 500px;
-  }
-  #MoneyOrPerson {
-    height: 500px;
-  }
-  .m-b {
-    margin-bottom: 20px;
-  }
-  .m-r {
-    margin-right: 20px;
-  }
-  .cakeView {
-    display: flex;
-  }
-  #cakeViewOne,
-  #cakeViewTwo,
-  #cakeViewThree {
-    height: 300px;
+}
+.topView {
+  height: 300px;
+  .cakeView-sex {
     width: 300px;
+    flex-shrink: 0;
+    #cakeViewOne {
+      width: 100%;
+      height: 100%;
+    }
   }
-  /deep/ .el-table .el-table__body-wrapper td {
-    padding: 4px 0;
+  #cakeViewTwo {
+    width: 100%;
+    height: 100%;
   }
+}
+#MyEchartsMonth {
+  height: 500px;
+}
+
+#MyEchartsMoney {
+  height: 500px;
+}
+
+#MoneyOrPerson {
+  height: 500px;
+}
+
+.m-b {
+  margin-bottom: 20px;
+}
+
+.m-r {
+  margin-right: 20px;
+}
+
+/deep/ .el-table .el-table__body-wrapper td {
+  padding: 4px 0;
+}
 </style>

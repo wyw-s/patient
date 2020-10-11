@@ -4,11 +4,11 @@ module.exports = {
   // 输出文件目录 默认为: dist
   outputDir: 'dist',
   // 放置打包生成的静态资源 (js、css、img、fonts) 的目录。该目录相对于 outputDir 。
-  assetsDir: 'assets',
+  assetsDir: 'static',
   // 为生产环境禁用 SourceMap
   productionSourceMap: false,
   // 将打包生成的的静态资源的文件名中加入hash以便控制浏览器缓存问题。
-  filenameHashing: true,
+  filenameHashing: false,
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin

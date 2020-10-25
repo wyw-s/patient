@@ -64,9 +64,9 @@ export default {
               // 存储token;
               window.sessionStorage.setItem('Token', res.data)
               // 编程式导航；
-              this.$tooltip('登录成功')
-              this.$router.push('/')
               this.$setLocal('activeItem', '1')
+              this.$router.push('/')
+              this.$tooltip('登录成功')
             } else {
               this.$tooltip('用户名或密码错误，请重新输入', 'error')
             }

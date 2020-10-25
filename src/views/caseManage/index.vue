@@ -7,23 +7,31 @@
         <el-button size="small" type="primary" plain icon="el-icon-plus" @click="openDialog()">新增患者</el-button>
       </div>
       <div class="search">
+        <el-date-picker
+          v-model="formValue.time"
+          type="datetimerange"
+          :picker-options="pickerOptions"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          align="right">
+        </el-date-picker>
         <el-input
           clearable
           size="small"
+          prefix-icon="el-icon-search"
           @keyup.enter.native="loadList"
           @clear="loadList"
-          v-model.trim="formValue.phone"
-          placeholder="根据手机号查询患者"
-        ></el-input>
-        <el-input
-          clearable
-          size="small"
-          @keyup.enter.native="loadList"
-          @clear="loadList"
-          v-model.trim="formValue.readlname"
-          placeholder="根据姓名模糊查询患者"
-        ></el-input>
-        <el-button size="small" type="primary" plain icon="el-icon-search" @click="onQuery">搜索</el-button>
+          v-model.trim="formValue[selectValue]"
+          placeholder="请输入"
+          class="input-with-select"
+        >
+          <el-select v-model="selectValue" slot="prepend" placeholder="请选择">
+            <el-option label="手机号" value="phone"></el-option>
+            <el-option label="姓名" value="readlname"></el-option>
+          </el-select>
+        </el-input>
+        <el-button size="small" type="primary" @click="onQuery">搜索</el-button>
       </div>
     </div>
     <!-- 表格组件 -->
@@ -42,7 +50,7 @@
         width="100"
       >
         <template slot-scope="scope">
-          <a class="viewHistory" @click="OnReview(scope.row)">{{ scope.row.readlname }}</a>
+          <el-link type="primary" @click="OnReview(scope.row)">{{scope.row.readlname}}</el-link>
         </template>
       </el-table-column>
       <template
@@ -181,6 +189,7 @@ export default {
       ],
       // 列表查询
       formValue: {
+        time: '',
         phone: null,
         readlname: null,
         // 当前页数；
@@ -212,22 +221,37 @@ export default {
       rules: {
         readlname: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         age: [{ required: true, message: '请输入年龄', trigger: 'blur' }],
-        // gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        // phone: [
-        //   {
-        //     required: true,
-        //     message: '请输入手机号',
-        //     trigger: 'blur'
-        //   },
-        //   {
-        //     pattern: /^1[3456789]\d{9}$/,
-        //     message: '请正确输入手机号',
-        //     trigger: 'blur'
-        //   }
-        // ],
         address: [{ required: true, message: '请输入地址', trigger: 'blur' }]
       },
-      viewCaseInfo: false
+      viewCaseInfo: false,
+      selectValue: 'readlname',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      }
     }
   },
 
@@ -250,6 +274,11 @@ export default {
 
     // 查询
     onQuery () {
+      if (this.selectValue === 'phone') {
+        this.formValue.readlname = null
+      } else {
+        this.formValue.phone = null
+      }
       this.loading = true
       this.page_loading = true
       this.formValue.pageIndex = 1
@@ -406,25 +435,30 @@ export default {
     justify-content: space-between;
     margin-bottom: 12px;
 
-    > div:first-child {
-      .el-button--default {
-        margin-right: 10px;
-      }
-    }
-
-    .search {
+    /deep/.search {
       display: flex;
 
       > div {
-        margin-right: 15px;
+        margin-right: 8px;
+      }
+      .el-date-editor {
+        height: 30px;
+        //line-height: 22px;
+        .el-input__icon,.el-range-separator {
+          height: inherit;
+        }
+      }
+      .el-select .el-input {
+        width: 80px;
+        .el-input__inner {
+          padding-left: 8px;
+        }
+      }
+      .input-with-select {
+        width: 300px;
+        background-color: #ffffff;
       }
     }
-  }
-  .viewHistory {
-    color: dodgerblue;
-  }
-  .viewHistory:hover {
-    text-decoration: underline;
   }
   .laypage {
     margin-top: 20px;

@@ -24,7 +24,8 @@ import {
   MessageBox,
   DatePicker,
   Select,
-  Option
+  Option,
+  Link
 } from 'element-ui'
 
 Vue.use(Container)
@@ -50,6 +51,7 @@ Vue.use(PageHeader)
 Vue.use(DatePicker)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Link)
 Vue.use(Loading.directive)
 
 Vue.prototype.$confirm = MessageBox.confirm

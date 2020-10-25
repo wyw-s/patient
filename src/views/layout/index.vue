@@ -24,7 +24,7 @@
     <el-container class="My_right_container">
       <el-header>
         <div class="UserOut">
-          <strong>百草堂医疗康复中心</strong>
+          <strong>百草堂颈椎腰腿疼医疗康复中心</strong>
           <el-button @click="OnUserOut" type="info" size="mini">退出登录</el-button>
         </div>
       </el-header>

@@ -13,7 +13,12 @@
         width="80"
         align="center"
         show-overflow-tooltip
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <span v-if="$route.query.id">{{scope.row.readlname}}</span>
+          <el-link type="primary" v-else @click="onReview(scope.row)">{{scope.row.readlname}}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="symptom"
         label="症状"
@@ -305,6 +310,17 @@ export default {
           }
         })
       }).catch(() => {})
+    },
+
+    // 便管理详情：
+    onReview (data) {
+      this.$router.push({
+        name: 'userCase',
+        query: {
+          id: data.id,
+          caseName: data.readlname
+        }
+      })
     }
   }
 }

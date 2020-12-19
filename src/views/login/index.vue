@@ -73,6 +73,7 @@ export default {
             this.fullscreenLoading = false
           }).catch(() => {
             this.$tooltip('登录失败，请重试', 'error')
+            this.fullscreenLoading = false
           })
         } else {
           // 效验失败

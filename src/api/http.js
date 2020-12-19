@@ -5,7 +5,7 @@ import { tooltip } from '@/utils/globalMeth'
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL
 })
-
+console.log(process.env)
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
   // 判断token是否存在
@@ -13,6 +13,7 @@ http.interceptors.request.use(function (config) {
     // 添加认证信息
     config.headers['Authorization'] = window.sessionStorage.getItem('Token')
   }
+  process.env.NODE_ENV === 'local' && config.url.replace(/\/customer/g, '')
   // 在发送请求之前做些什么
   return config
 }, function (error) {

@@ -12,7 +12,7 @@ module.exports = {
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
-    extract: process.env.NODE_ENV === 'production',
+    extract: process.env.NODE_ENV !== 'development',
     // 开启 CSS source maps?
     sourceMap: false
   },
@@ -28,14 +28,6 @@ module.exports = {
     port: 8086,
     open: true,
     hot: true,
-    proxy: {
-      '/customer': {
-        target: 'http://47.114.139.71:9091',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/customer': '/'
-        }
-      }
-    }
+    proxy: 'http://47.114.139.71:9091'
   }
 }

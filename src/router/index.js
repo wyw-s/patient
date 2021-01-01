@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login/index.vue')
+    component: () => import('@/views/login')
   },
   {
     path: '/',
@@ -48,6 +48,11 @@ const routes = [
         component: () => import('@/views/dictionaries')
       }
     ]
+  },
+  {
+    path: '*',
+    redirect: '/statistics',
+    component: () => import('@/views/statistics')
   }
 ]
 

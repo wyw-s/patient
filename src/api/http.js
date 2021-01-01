@@ -13,7 +13,8 @@ http.interceptors.request.use(function (config) {
     // 添加认证信息
     config.headers['Authorization'] = window.sessionStorage.getItem('Token')
   }
-  process.env.NODE_ENV === 'local' && config.url.replace(/\/customer/g, '')
+  // 只有生产环境有 customer 路径前缀
+  process.env.NODE_ENV !== 'production' && (config.url = config.url.replace(/\/customer/g, ''))
   // 在发送请求之前做些什么
   return config
 }, function (error) {

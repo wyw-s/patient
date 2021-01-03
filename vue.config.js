@@ -28,6 +28,14 @@ module.exports = {
     port: 8086,
     open: true,
     hot: true,
-    proxy: 'http://47.114.139.71:9091'
+    proxy: {
+      '/api': {
+        target: 'http://47.114.139.71:9091',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   }
 }

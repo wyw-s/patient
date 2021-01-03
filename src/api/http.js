@@ -14,7 +14,7 @@ http.interceptors.request.use(function (config) {
     config.headers['Authorization'] = window.sessionStorage.getItem('Token')
   }
   // 只有生产环境有 customer 路径前缀
-  process.env.NODE_ENV !== 'production' && (config.url = config.url.replace(/\/customer/g, ''))
+  process.env.NODE_ENV !== 'production' && (config.url = config.url.replace(/\/customer/g, '/api'))
   // 在发送请求之前做些什么
   return config
 }, function (error) {

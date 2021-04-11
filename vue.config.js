@@ -1,5 +1,5 @@
 
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   // 解决部署后访问空白页的问题；
@@ -20,9 +20,9 @@ module.exports = {
     sourceMap: false
   },
   configureWebpack: config => {
-    if (process.env.NODE_ENV === 'production') {
-      config.plugins.push(new CompressionWebpackPlugin({
-        deleteOriginalAssets: true
+    if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_PRO_LOCAL === 'TRUE') {
+      config.plugins.unshift(new BundleAnalyzerPlugin({
+        analyzerPort: 8081
       }))
     }
   },

@@ -87,7 +87,7 @@ export default {
 
 <style lang="less" scoped>
 .picture {
-  background-image: url("../../assets/login.jpg");
+  background-image: url("../../assets/images/login.jpg");
   background-size: cover;
   height: 97vh;
   .box-card {

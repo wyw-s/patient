@@ -1,3 +1,6 @@
+
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
 module.exports = {
   // 解决部署后访问空白页的问题；
   publicPath: './',
@@ -15,6 +18,13 @@ module.exports = {
     extract: process.env.NODE_ENV !== 'development',
     // 开启 CSS source maps?
     sourceMap: false
+  },
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      config.plugins.push(new CompressionWebpackPlugin({
+        deleteOriginalAssets: true
+      }))
+    }
   },
   chainWebpack: config => {
     config.plugin('html')

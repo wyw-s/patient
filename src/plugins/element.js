@@ -25,7 +25,8 @@ import {
   DatePicker,
   Select,
   Option,
-  Link
+  Link,
+  CascaderPanel
 } from 'element-ui'
 
 Vue.use(Container)
@@ -52,6 +53,7 @@ Vue.use(DatePicker)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Link)
+Vue.use(CascaderPanel)
 Vue.use(Loading.directive)
 
 Vue.prototype.$confirm = MessageBox.confirm

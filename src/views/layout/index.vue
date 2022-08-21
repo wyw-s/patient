@@ -41,7 +41,7 @@ export default {
   name: 'layout_',
   data () {
     return {
-      logoUrl: require('@/assets/logo.png'),
+      logoUrl: require('@/assets/images/logo.png'),
       active: this.$getLocal('activeItem') || '1',
       menuArr: [
         {
@@ -131,7 +131,7 @@ export default {
     text-align: center;
     line-height: 50px;
     color: #ffffff;
-    background-color: #ccc;
+    background-color: #fff;
     img {
       width: 100%;
       height: 100%;

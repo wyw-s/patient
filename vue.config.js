@@ -30,10 +30,10 @@ module.exports = {
     hot: true,
     proxy: {
       '/customer': {
-        target: 'http://47.114.139.71:9091',
+        target: 'http://patient.wangyawei.top',
         changeOrigin: true,
         pathRewrite: {
-          '^/customer': '/'
+          '^/customer': '/api'
         }
       }
     }

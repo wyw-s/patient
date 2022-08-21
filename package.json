@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.19.1",
-    "core-js": "^3.4.4",
+    "core-js": "^3.24.1",
     "echarts": "^4.6.0",
     "element-ui": "^2.13.0",
     "moment": "^2.24.0",
@@ -20,7 +20,7 @@
     "vuex": "^3.5.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-babel": "^4.4.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
     "@vue/cli-plugin-router": "^4.1.0",
     "@vue/cli-service": "^4.1.0",

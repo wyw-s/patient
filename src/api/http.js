@@ -2,9 +2,7 @@ import axios from 'axios'
 import router from '@/router'
 import { tooltip } from '@/utils/globalMeth'
 
-const http = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL
-})
+const http = axios.create()
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
